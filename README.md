@@ -38,7 +38,7 @@ Contributions are welcome!
 Please only contribute versions of the original utilities written in V.
 Contributions written in other languages will likely be rejected.
 
-## Completed (41/109)
+## Completed (44/109)
 
 |  Done   | Cmd       | Descripton                                       |
 | :-----: | --------- | ------------------------------------------------ |
@@ -66,7 +66,7 @@ Contributions written in other languages will likely be rejected.
 |         | df        | Report file system disk space usage              |
 |         | dir       | Briefly list directory contents                  |
 |         | dircolors | Color setup for ls                               |
-|         | dirname   | Strip last file name component                   |
+| &check; | dirname   | Strip last file name component                   |
 |         | du        | Estimate file space usage                        |
 | &check; | echo      | Print a line of text                             |
 |         | env       | Run a command in a modified environment          |
@@ -85,7 +85,7 @@ Contributions written in other languages will likely be rejected.
 |         | join      | Join lines on a common field                     |
 |         | kill      | Send a signal to processes                       |
 |         | link      | Make a hard link via the link syscall            |
-|         | ln        | Make links between files                         |
+| &check; | ln        | Make links between files                         |
 | &check; | logname   | Print current login name                         |
 |         | ls        | List directory contents                          |
 | &check; | md5sum    | Print or check MD5 digests                       |
@@ -95,7 +95,7 @@ Contributions written in other languages will likely be rejected.
 |         | mktemp    | Create temporary file or directory               |
 | &check; | mv        | Move (rename) files                              |
 |         | nice      | Run a command with modified niceness             |
-| ?       | nl        | Number lines and write files                     |
+| &check; | nl        | Number lines and write files                     |
 | &check; | nohup     | Run a command immune to hangups                  |
 | &check; | nproc     | Print the number of available processors         |
 |         | numfmt    | Reformat numbers                                 |

@@ -22,7 +22,7 @@ struct Settings {
 ///===================================================================///
 
 fn main() {
-	settings := args()?
+	settings := args()!
 
 	// sanitize settings
 	check_settings(settings) or {
@@ -100,7 +100,7 @@ fn largest(x int, y int) int {
 }
 
 [inline]
-fn check_settings(set Settings) ? {
+fn check_settings(set Settings) ! {
 	if set.increment.f64() == 0 {
 		return error("${app_name}: invalid zero increment value '0'")
 	}
@@ -110,7 +110,7 @@ fn check_settings(set Settings) ? {
 ///                                Args                               ///
 ///===================================================================///
 
-fn args() ?Settings {
+fn args() !Settings {
 	mut fp := common.flag_parser(os.args)
 	fp.application(app_name)
 	fp.description(app_description)
