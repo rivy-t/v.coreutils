@@ -1,11 +1,9 @@
 import os
 import common
 
-const (
-	name         = 'mkdir'
-	space_char   = u8(32)
-	default_mode = u32(0o777)
-)
+const name = 'mkdir'
+const space_char = u8(32)
+const default_mode = u32(0o777)
 
 struct Options {
 	mode    u32
@@ -14,7 +12,7 @@ struct Options {
 }
 
 // Print messages and exit
-[noreturn]
+@[noreturn]
 fn success_exit(messages ...string) {
 	for message in messages {
 		println(message)
@@ -69,8 +67,8 @@ fn run_mkdir(args []string) {
 	fp.description('Mandatory arguments to long options are mandatory for short options too.')
 
 	mut opts := Options{
-		mode: u32(fp.int('mode', `m`, int(default_mode), 'set file mode (as in chmod), not a=rxw - umask'))
-		parent: fp.bool('parents', `p`, false, 'no error if existing, make parent directories as needed')
+		mode:    u32(fp.int('mode', `m`, int(default_mode), 'set file mode (as in chmod), not a=rxw - umask'))
+		parent:  fp.bool('parents', `p`, false, 'no error if existing, make parent directories as needed')
 		verbose: fp.bool('verbose', `v`, false, 'print a message for each created directory')
 	}
 

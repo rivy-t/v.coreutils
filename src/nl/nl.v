@@ -13,10 +13,8 @@ import regex
 // one_delimiter_posix := false		// false:GNU, true:BSD
 // fixed_width := false				// false:GNU, true:BSD
 
-const (
-	app_name        = 'nl'
-	app_description = 'Line numbering filter'
-)
+const app_name = 'nl'
+const app_description = 'Line numbering filter'
 
 enum Section {
 	header
@@ -40,13 +38,13 @@ enum Style {
 
 struct Settings {
 mut:
-	ini_lno    i64    // -v
-	inc_lno    i64    // -i
-	width      int    // -w
-	separator  string // -s
-	reset_lno  bool   // -p
-	join_blank int    // -l
-	format     Format // -n
+	ini_lno    i64                  // -v
+	inc_lno    i64                  // -i
+	width      int                  // -w
+	separator  string               // -s
+	reset_lno  bool                 // -p
+	join_blank int                  // -l
+	format     Format               // -n
 	styles     map[Section]Style    // -b, -h, -f
 	delimiters map[Section]string   // -d
 	res        map[Section]regex.RE // -b pRE, -h pRE, -f pRE
@@ -116,7 +114,7 @@ fn nl(settings Settings, streams []os.File) {
 					if skip {
 						prefix = skip_prefix
 					} else {
-						prefix = strconv.v_sprintf(f_lno, lineno)
+						prefix = unsafe { strconv.v_sprintf(f_lno, lineno) }
 
 						//// Compile options, default is GNU-compatible behavior ////
 						// In BSD, the upper digits are truncated in case of overflow.
@@ -201,7 +199,7 @@ fn check_skip_line(style Style, re regex.RE, join_blank int, prev_blanks int, li
 	}
 }
 
-[inline]
+@[inline]
 fn format_lineno(format Format, width int) string {
 	return match format {
 		.rn { '%${width}ld' }
@@ -210,7 +208,7 @@ fn format_lineno(format Format, width int) string {
 	}
 }
 
-[inline]
+@[inline]
 fn check_section_delimiter(settings Settings, line string) Section {
 	return match line {
 		settings.delimiters[.header] { Section.header }
@@ -220,7 +218,7 @@ fn check_section_delimiter(settings Settings, line string) Section {
 	}
 }
 
-[inline]
+@[inline]
 fn is_overflow_add_i64(a i64, b i64) bool {
 	// Warning! Unspecified behavior.
 	return _unlikely_((a < 0 && b < 0 && (a + b) > 0) || (a > 0 && b > 0 && (a + b) < 0))

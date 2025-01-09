@@ -2,23 +2,21 @@ import os
 import common
 import encoding.base64
 
-const (
-	application_name   = 'base64'
+const application_name = 'base64'
 
-	// multiple of 3 so we can encode the data in chunks and concatenate
-	chunk_size_encode  = 15 * 1024
+// multiple of 3 so we can encode the data in chunks and concatenate
+const chunk_size_encode = 15 * 1024
 
-	// 4/3 of chunk_size_encode
-	buffer_size_encode = 4 * (15 / 3) * 1024
+// 4/3 of chunk_size_encode
+const buffer_size_encode = 4 * (15 / 3) * 1024
 
-	// multiple of 4 so we can decode the data in chunks and concatenate
-	chunk_size_decode  = 16 * 1024
+// multiple of 4 so we can decode the data in chunks and concatenate
+const chunk_size_decode = 16 * 1024
 
-	// more than 3/4 of chunk_size_decode
-	buffer_size_decode = 16 * 1024
+// more than 3/4 of chunk_size_decode
+const buffer_size_decode = 16 * 1024
 
-	newline            = []byte{len: 1, init: `\n`}
-)
+const newline = []u8{len: 1, init: `\n`}
 
 fn get_file(args []string) os.File {
 	if args.len == 0 || args[0] == '-' {
@@ -113,7 +111,7 @@ fn decode_and_print(mut file os.File) {
 		// using slice magic to overwrite possible '\n' and fill the single
 		// buffer with base64 encoded data only.
 		for {
-			read_bytes := file.read_bytes_into_newline(mut in_buffer[n_bytes..]) or {
+			read_bytes := file.read_bytes_with_newline(mut in_buffer[n_bytes..]) or {
 				eprintln('${application_name}: Cannot read file')
 				exit(1)
 			}

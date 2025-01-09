@@ -11,11 +11,11 @@ jobs:
       VTEST_SHOW_START: 1
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           path: coreutils
       - name: Checkout Latest V
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: vlang/v
           path: v
@@ -27,7 +27,7 @@ jobs:
           echo "adding '${PWD}' to PATH"
           echo "${PWD}" >> $GITHUB_PATH
       - name: Download uutils/coreutils
-        uses: engineerd/configurator@v0.0.8
+        uses: engineerd/configurator@v0.0.10 
         with:
           name: 'coreutils.exe'
           url: 'https://github.com/uutils/coreutils/releases/download/0.0.17/coreutils-0.0.17-x86_64-pc-windows-msvc.zip'
@@ -58,80 +58,76 @@ jobs:
         shell: bash
         run: |
           # Run tests
-          cd coreutils && v test .
+          cd coreutils && USE_MULTI_BINARY_TO_TEST=coreutils v test .
 
   ubuntu-fast-build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout Latest V
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: vlang/v
           path: v
       - name: Build V
         run: cd v && make && sudo ./v symlink && cd -
       - name: Checkout Coreutils (for tests)
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           path: coreutils
-
       - name: V doctor
         run: v doctor
       - name: Ensure everything is formatted
         run: cd coreutils && make testfmt
       - name: Build all
         run: cd coreutils && v run build.vsh
-      - name: Debug uptime_test.v
-        run: cd coreutils && v -d trace_same_results -stats src/uptime/uptime_test.v
+      - name: Debug uptime_nix_test.v
+        run: cd coreutils && v -d trace_same_results -stats src/uptime/uptime_nix_test.v
       - name: Run tests
         run: cd coreutils && make test
 
   ubuntu-prod-build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout Latest V
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: vlang/v
           path: v
       - name: Build V
         run: cd v && make && sudo ./v symlink && cd -
       - name: Checkout Coreutils (for tests)
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           path: coreutils
-
       - name: Build all with -prod
         run: cd coreutils && v run build.vsh -prod
       - name: Run tests
         run: cd coreutils && make test
 
   ubuntu-gnu-coreutils:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout Latest V
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: vlang/v
           path: v
       - name: Build V
         run: cd v && make && sudo ./v symlink && cd -
       - name: Checkout Coreutils (for tests)
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           path: coreutils
-
       - name: Build all
         run: cd coreutils && v run build.vsh
-
       - name: Native utils diagnostics (before GNU coreutils)
         run: |
+          echo "::remove-matcher owner=v-problem-matcher::"
           sleep --version
           uptime --version
       - name: Setup the original GNU coreutils for comparison
         uses: ShenTengTu/setup-gnu-coreutils-action@v1
       - name: Test GNU coreutils uptime
         run: uptime --version
-
       - name: Run tests
         run: cd coreutils && GNU_COREUTILS_INSTALLED=1 make test

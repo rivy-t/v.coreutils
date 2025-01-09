@@ -1,11 +1,9 @@
 import os { File }
 import common
 
-const (
-	name   = 'expand'
-	bufsiz = 4096
-	nl     = '\n'
-)
+const name = 'expand'
+const bufsiz = 4096
+const nl = '\n'
 
 fn process_line(line string, initial bool, tabs int) {
 	mut sp := ''
@@ -33,7 +31,7 @@ fn process_stream(stream File, initial bool, tabs int) {
 	mut buf := []u8{len: bufsiz}
 	mut line := ''
 	for {
-		n := stream.read_bytes_into_newline(mut buf) or {
+		n := stream.read_bytes_with_newline(mut buf) or {
 			eprintln('${name}: ${err.msg()}')
 			0
 		}

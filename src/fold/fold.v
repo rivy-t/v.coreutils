@@ -3,17 +3,15 @@ import strings
 import common
 import io
 
-const (
-	name         = 'fold'
-	buf_size     = 256
-	newline_char = `\n`
-	nul_char     = `\0`
-	back_char    = `\b`
-	return_char  = `\r`
-	tab_char     = `\t`
-	space_char   = u8(32)
-	tab_width    = 8
-)
+const name = 'fold'
+const buf_size = 256
+const newline_char = `\n`
+const nul_char = `\0`
+const back_char = `\b`
+const return_char = `\r`
+const tab_char = `\t`
+const space_char = u8(32)
+const tab_width = 8
 
 struct Folder {
 	max_width       int
@@ -27,10 +25,10 @@ mut:
 
 fn new_folder(width int, count_bytes bool, break_at_spaces bool) Folder {
 	return Folder{
-		max_width: width
-		count_bytes: count_bytes
+		max_width:       width
+		count_bytes:     count_bytes
 		break_at_spaces: break_at_spaces
-		output_buf: strings.new_builder(buf_size)
+		output_buf:      strings.new_builder(buf_size)
 	}
 }
 
@@ -158,7 +156,7 @@ fn (c FoldCommand) run(mut files []InputFile) {
 }
 
 // Print messages and exit
-[noreturn]
+@[noreturn]
 fn success_exit(messages ...string) {
 	for message in messages {
 		println(message)
@@ -192,8 +190,8 @@ fn get_files(file_args []string) []InputFile {
 	if file_args.len == 0 || file_args[0] == '-' {
 		files << InputFile{
 			is_stdin: true
-			name: 'stdin'
-			file: os.stdin()
+			name:     'stdin'
+			file:     os.stdin()
 		}
 		return files
 	}
@@ -201,7 +199,7 @@ fn get_files(file_args []string) []InputFile {
 	for _, fa in file_args {
 		files << InputFile{
 			is_stdin: false
-			name: fa
+			name:     fa
 		}
 	}
 	return files
@@ -230,8 +228,8 @@ fn run_fold(args []string) {
 	file_args := fp.finalize() or { common.exit_with_error_message(name, err.msg()) }
 
 	cmd := FoldCommand{
-		max_col_width: width
-		break_at_spaces: spaces
+		max_col_width:                    width
+		break_at_spaces:                  spaces
 		count_bytes_ignore_control_chars: bytes
 	}
 

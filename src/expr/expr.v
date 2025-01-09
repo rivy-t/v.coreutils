@@ -8,9 +8,7 @@ import common
 
 const appname = 'expr'
 
-const version = 'v0.0.1'
-
-const usage = '${appname} ${version}
+const usage = '${appname} ${common.version}
 ----------------------------------------------
 Usage: expr EXPRESSION
    or: expr OPTION
@@ -29,7 +27,7 @@ mut:
 	idx u64
 }
 
-[noreturn]
+@[noreturn]
 fn my_panic(err string, code int) {
 	eprintln(err)
 	exit(code)
@@ -48,7 +46,7 @@ fn main() {
 					exit(0)
 				}
 				'--version' {
-					println('${appname} ${version}')
+					println('${appname} (V coreutils) ${common.version}')
 					exit(0)
 				}
 				else {}
@@ -333,7 +331,7 @@ fn (mut p Parser) primary() Value {
 	}
 }
 
-[inline]
+@[inline]
 fn (p Parser) get() ?string {
 	if p.idx < p.tokens.len {
 		return p.tokens[p.idx]

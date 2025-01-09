@@ -1,11 +1,9 @@
 import os
 import common
 
-const (
-	name            = 'mv'
-	interactive_yes = ['y']
-	combine_t_no_t  = 'cannot combine --target-directory (-t) and --no-target-directory (-T)'
-)
+const name = 'mv'
+const interactive_yes = ['y']
+const combine_t_no_t = 'cannot combine --target-directory (-t) and --no-target-directory (-T)'
 
 fn prompt_file(path string) string {
 	return "overwrite '${path}'? "
@@ -124,16 +122,16 @@ fn setup_mv_command(args []string) ?(MvCommand, []string, string) {
 	}
 
 	return MvCommand{
-		overwrite: overwrite
-		update: update
-		verbose: verbose
-		target_directory: target_directory
+		overwrite:           overwrite
+		update:              update
+		verbose:             verbose
+		target_directory:    target_directory
 		no_target_directory: no_target_directory
 	}, sources, dest
 }
 
 // Print messages and exit with error
-[noreturn]
+@[noreturn]
 fn error_exit(messages ...string) {
 	for message in messages {
 		eprintln(message)
@@ -142,7 +140,7 @@ fn error_exit(messages ...string) {
 }
 
 // Print messages and exit
-[noreturn]
+@[noreturn]
 fn success_exit(messages ...string) {
 	for message in messages {
 		println(message)

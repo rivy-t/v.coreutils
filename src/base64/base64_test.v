@@ -1,24 +1,19 @@
-import os
 import common.testing
+import os
 
-const util = 'base64'
+const rig = testing.prepare_rig(util: 'base64')
+const executable_under_test = rig.executable_under_test
 
-const platform_util = $if !windows {
-	util
-} $else {
-	'coreutils ${util}'
+fn testsuite_begin() {
+	rig.assert_platform_util()
 }
 
-const executable_under_test = testing.prepare_executable(util)
-
-const cmd = testing.new_paired_command(platform_util, executable_under_test)
-
 fn test_help_and_version() {
-	cmd.ensure_help_and_version_options_work()!
+	rig.assert_help_and_version_options_work()
 }
 
 fn test_abcd() {
-	res := os.execute('${executable_under_test} abcd')
+	res := os.execute('${rig.executable_under_test} abcd')
 	assert res.exit_code == 1
 	assert res.output.trim_space() == 'base64: abcd: No such file or directory'
 }
