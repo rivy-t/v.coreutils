@@ -1,4 +1,5 @@
-#!/bin/env v
+#!/usr/bin/env -S v
+// ref: [V shell scripts]<https://docs.vlang.io/other-v-features.html#cross-platform-shell-scripts-in-v> @@ (https://archive.is/PuiXL)
 
 import os // v has a bug that you can't use args
 
